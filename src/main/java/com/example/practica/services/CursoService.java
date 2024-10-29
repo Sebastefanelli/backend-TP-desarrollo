@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.List;
 import java.time.LocalDate;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,31 +41,30 @@ public class CursoService {
 
 	public Curso saveCurso(Curso curso) {
 		try {
-			// Fetch existing Docente and Tema from the database
-			Docente existingDocente = docenteRepository.findById(curso.getDocente().getId())
-					.orElseThrow(() -> new RuntimeException("Docente not found"));
-			Tema existingTema = temaRepository.findById(curso.getTema().getId())
-					.orElseThrow(() -> new RuntimeException("Tema not found"));
+			// Fetch Docente y Tema de la base de datos
+			Docente docenteExistente = docenteRepository.findById(curso.getDocente().getId())
+					.orElseThrow(() -> new RuntimeException("Docente not encontrado"));
+			Tema temaExistente = temaRepository.findById(curso.getTema().getId())
+					.orElseThrow(() -> new RuntimeException("Tema no encontrado"));
 
-			// Replace with the existing entities
-			curso.setDocente(existingDocente);
-			curso.setTema(existingTema);
+			// remplazo por las entidades existentes
+			curso.setDocente(docenteExistente);
+			curso.setTema(temaExistente);
 
-			// Fetch existing Alumnos from the database
-			List<Alumno> existingAlumnos = new ArrayList<>();
-			for (Alumno alumno : curso.getAlumnos()) {
-				Alumno existingAlumno = alumnoRepository.findById(alumno.getId())
-						.orElseThrow(() -> new RuntimeException("Alumno not found with ID: " + alumno.getId()));
-				existingAlumnos.add(existingAlumno);
-			}
+			// Fetch Alumnos existentes en la base de datos
+			List<Long> alumnoIds = curso.getAlumnos().stream()
+					.map(Alumno::getId)
+					.collect(Collectors.toList());
+			List<Alumno> alumnosExistentes = alumnoRepository.findAllById(alumnoIds);
 
-			// Set the list of existing Alumnos
-			curso.setAlumnos(existingAlumnos);
+
+			// Seteo la lista con Alumnos existentes
+			curso.setAlumnos(alumnosExistentes);
 
 			return cursoRepository.save(curso);
 		} catch (Exception e) {
-			System.err.println("Error saving curso: " + e.getMessage());
-			throw new RuntimeException("Error saving curso: " + e.getMessage());
+			System.err.println("Error guradando el curso: " + e.getMessage());
+			throw new RuntimeException("Error guardando el curso: " + e.getMessage());
 		}
 	}
 
@@ -75,28 +75,28 @@ public class CursoService {
 	public Curso updateById(Curso request, Long id) {
 		Curso curso = cursoRepository.findById(id).orElseThrow(() -> new RuntimeException("Curso not found"));
 
-		// Fetch existing Docente and Tema from the database
-		Docente existingDocente = docenteRepository.findById(request.getDocente().getId())
-				.orElseThrow(() -> new RuntimeException("Docente not found"));
-		Tema existingTema = temaRepository.findById(request.getTema().getId())
-				.orElseThrow(() -> new RuntimeException("Tema not found"));
+		// Fetch Docente y Tema de la base de datos
+		Docente docenteExistente = docenteRepository.findById(request.getDocente().getId())
+				.orElseThrow(() -> new RuntimeException("Docente no encontrado"));
+		Tema temaExistente = temaRepository.findById(request.getTema().getId())
+				.orElseThrow(() -> new RuntimeException("Tema no encontrado"));
 
-		// Replace with the existing entities
-		curso.setDocente(existingDocente);
-		curso.setTema(existingTema);
+		// remplazo por las entidades existentes
+		curso.setDocente(docenteExistente);
+		curso.setTema(temaExistente);
 
-		// Fetch existing Alumnos from the database
-		List<Alumno> existingAlumnos = new ArrayList<>();
+		// Fetch Alumnos existentes en la base de datos
+		List<Alumno> alumnosExistentes = new ArrayList<>();
 		for (Alumno alumno : request.getAlumnos()) {
-			Alumno existingAlumno = alumnoRepository.findById(alumno.getId())
-					.orElseThrow(() -> new RuntimeException("Alumno not found with ID: " + alumno.getId()));
-			existingAlumnos.add(existingAlumno);
+			Alumno alumnoExistente = alumnoRepository.findById(alumno.getId())
+					.orElseThrow(() -> new RuntimeException("Alumno no encontrado con ID: " + alumno.getId()));
+			alumnosExistentes.add(alumnoExistente);
 		}
 
-		// Set the list of existing Alumnos
-		curso.setAlumnos(existingAlumnos);
+		// Seteo la lista con Alumnos existentes
+		curso.setAlumnos(alumnosExistentes);
 
-		// Update other fields
+		// Update de los campos
 		curso.setFechaInicio(request.getFechaInicio());
 		curso.setFechaFin(request.getFechaFin());
 		curso.setPrecio(request.getPrecio());

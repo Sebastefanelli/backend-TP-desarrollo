@@ -52,9 +52,9 @@ public class AlumnoController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteAlumno(@PathVariable("id") Long id) {
 		if (alumnoService.deleteAlumno(id)) {
-			return ResponseEntity.ok("Alumno with ID " + id + " deleted");
+			return ResponseEntity.ok("Alumno con ID " + id + " borado");
 		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error deleting alumno");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error borrando alumno");
 		}
 	}
 }

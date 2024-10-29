@@ -28,11 +28,10 @@ public class TemaService {
 
 	public Tema updateTema(Long id, Tema request) {
 		Tema tema = temaRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Tema not found"));
+				.orElseThrow(() -> new RuntimeException("Tema no encontrado"));
 
 		tema.setNombre(request.getNombre());
 		tema.setDescripcion(request.getDescripcion());
-		// Añade más campos si es necesario
 		return temaRepository.save(tema);
 	}
 

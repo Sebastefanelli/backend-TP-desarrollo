@@ -34,18 +34,9 @@ public class Curso {
 	)
 	private List<Alumno> alumnos;
 
-
-	//constructor
+	//constructor vacio ya que el JPA lo hace aumaticamente cuando interactua con la base de datos
 	public Curso(){}
 
-	public Curso(Tema tema, LocalDate fechaInicio, LocalDate fechaFin, Docente docente, double precio, List<Alumno> alumnos) {
-		this.tema = tema;
-		this.fechaInicio = fechaInicio;
-		this.fechaFin = fechaFin;
-		this.docente = docente;
-		this.precio = precio;
-		this.alumnos = alumnos;
-	}
 
 	// Getters y Setters
 	public Long getId() {

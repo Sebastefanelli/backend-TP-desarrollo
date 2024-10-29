@@ -19,11 +19,6 @@ public class Docente {
 	//constructor
 	public Docente(){}
 
-	public Docente(String nombre, Long legajo){
-		this.legajo = legajo;
-		this.nombre=nombre;
-	}
-
 	public Long getId() {
 		return id;
 	}

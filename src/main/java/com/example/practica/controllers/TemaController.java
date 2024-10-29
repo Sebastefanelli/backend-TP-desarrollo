@@ -52,9 +52,9 @@ public class TemaController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteTema(@PathVariable("id") Long id) {
 		if (temaService.deleteTema(id)) {
-			return ResponseEntity.ok("Tema with ID " + id + " deleted");
+			return ResponseEntity.ok("Tema con ID " + id + " borrado");
 		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error deleting tema");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error borando tema");
 		}
 	}
 }

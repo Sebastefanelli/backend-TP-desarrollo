@@ -16,15 +16,8 @@ public class Alumno {
 	@Column(name = "fecha_nacimiento")
 	private LocalDate fecha_nacimiento;
 
-
-
 	//constructor
 	public Alumno(){}
-
-	public Alumno(String nombre, LocalDate fecha_nacimiento){
-		this.fecha_nacimiento= fecha_nacimiento;
-		this.nombre=nombre;
-	}
 
 	public Long getId() {
 		return id;

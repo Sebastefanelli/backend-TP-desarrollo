@@ -32,7 +32,6 @@ public class AlumnoService {
 
 		alumno.setNombre(request.getNombre());
 		alumno.setFechaNacimiento(request.getFechaNacimiento());
-		// Añade más campos si es necesario
 		return alumnoRepository.save(alumno);
 	}
 

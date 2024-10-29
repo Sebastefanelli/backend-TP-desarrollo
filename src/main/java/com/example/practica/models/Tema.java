@@ -18,11 +18,6 @@ public class Tema {
 	//constructor
 	public Tema(){}
 
-	public Tema(String nombre, String descripcion){
-		this.descripcion = descripcion;
-		this.nombre=nombre;
-	}
-
 	public Long getId() {
 		return id;
 	}
