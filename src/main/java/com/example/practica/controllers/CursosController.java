@@ -60,15 +60,16 @@ public class CursosController {
 	}
 
 	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<String> deleteById(@PathVariable("id") Long id) {
+	public ResponseEntity<Void> deleteById(@PathVariable("id") Long id) {
 		boolean ok = this.cursoService.deleteCurso(id);
 
 		if (ok) {
-			return ResponseEntity.ok("Curso con id " + id + " eliminado.");
+			return ResponseEntity.noContent().build(); // Devuelve 204 No Content
 		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error al eliminar el curso con id " + id);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // Devuelve 404 Not Found
 		}
 	}
+
 
 	@GetMapping("/fecha-fin")
 	public ResponseEntity<List<Curso>> getCursosByFechaFin(@RequestParam("fecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {

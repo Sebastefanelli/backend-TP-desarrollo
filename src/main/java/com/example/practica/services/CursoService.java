@@ -52,10 +52,12 @@ public class CursoService {
 			curso.setTema(temaExistente);
 
 			// Fetch Alumnos existentes en la base de datos
-			List<Long> alumnoIds = curso.getAlumnos().stream()
-					.map(Alumno::getId)
-					.collect(Collectors.toList());
-			List<Alumno> alumnosExistentes = alumnoRepository.findAllById(alumnoIds);
+			List<Alumno> alumnosExistentes = new ArrayList<>();
+			for (Alumno alumno : curso.getAlumnos()) {
+				Alumno alumnoExistente = alumnoRepository.findById(alumno.getId())
+						.orElseThrow(() -> new RuntimeException("Alumno no encontrado con ID: " + alumno.getId()));
+				alumnosExistentes.add(alumnoExistente);
+			}
 
 
 			// Seteo la lista con Alumnos existentes

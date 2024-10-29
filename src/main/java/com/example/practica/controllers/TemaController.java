@@ -50,11 +50,12 @@ public class TemaController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteTema(@PathVariable("id") Long id) {
+	public ResponseEntity<Void> deleteTema(@PathVariable("id") Long id) {
 		if (temaService.deleteTema(id)) {
-			return ResponseEntity.ok("Tema con ID " + id + " borrado");
+			return ResponseEntity.noContent().build(); // Devuelve 204 No Content
 		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error borando tema");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // Devuelve 404 Not Found
 		}
 	}
+
 }

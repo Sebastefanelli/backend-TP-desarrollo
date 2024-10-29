@@ -50,11 +50,12 @@ public class AlumnoController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteAlumno(@PathVariable("id") Long id) {
+	public ResponseEntity<Void> deleteAlumno(@PathVariable Long id) {
 		if (alumnoService.deleteAlumno(id)) {
-			return ResponseEntity.ok("Alumno con ID " + id + " borado");
+			return ResponseEntity.noContent().build(); // Devuelve 204 No Content
 		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error borrando alumno");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // Devuelve 500 Internal Server Error
 		}
 	}
+
 }
